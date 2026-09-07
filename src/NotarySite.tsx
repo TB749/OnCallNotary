@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import type { SVGProps } from "react";
+import SmartBooking from "./SmartBooking";
+import BusinessInquiry from "./BusinessInquiry";
+import { SERVICES } from "../shared/catalog.mjs";
+const startBooking = (id: string) => window.dispatchEvent(new CustomEvent("smart-booking", {detail:id}));
 
 const HERO_IMAGE = "/hero.jpg";
 
@@ -36,53 +40,7 @@ export default function NotarySite() {
   const [calendlyHeight, setCalendlyHeight] = useState(600);
   const calendlyContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const serviceHighlights = [
-    {
-      title: "Affidavits & Statutory Declarations",
-      blurb:
-        "Name change, common-law status, insurance claims, travel consent and more.",
-      image: "/istockphoto-1057613520-612x612.jpg",
-      points: [
-        "Sworn & affirmed statements",
-        "Commissioner-certified signatures",
-        "Remote commissioning available",
-      ],
-    },
-    {
-      title: "Certified Copies & Legalization",
-      blurb:
-        "True copies for passports, IDs, diplomas, bank statements, plus authentication guidance.",
-      image: "/istockphoto-505753884-612x612.jpg",
-      points: [
-        "Notary-certified true copies",
-        "Document apostille prep",
-        "Corporate & personal records",
-      ],
-    },
-    {
-      title: "Business & Real Estate",
-      blurb:
-        "Contracts, minutes books, real estate forms, CPA documents and corporate resolutions.",
-      image: "/documents-scales-justice-stamp-public-260nw-2155309751.jpg",
-      points: [
-        "Witnessing & execution",
-        "Mobile visits across the GTA",
-        "Flexible evening availability",
-      ],
-    },
-    {
-      title: "International & Immigration",
-      blurb:
-        "Letters of invitation, sponsorship, consent to travel, translations (verification) and more.",
-      image:
-        "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=960&q=80",
-      points: [
-        "Cross-border compliance",
-        "Certified translations (verification)",
-        "Partner network for legalization",
-      ],
-    },
-  ];
+  const serviceHighlights = SERVICES;
 
   const DocumentIcon = (props: SVGProps<SVGSVGElement>) => (
     <svg
@@ -157,7 +115,7 @@ export default function NotarySite() {
     );
     console.assert(
       (document.body.textContent || "").includes(
-        "In-person only (Ontario law)"
+        "In-person only"
       ),
       "Notarization restriction copy present"
     );
@@ -240,6 +198,7 @@ export default function NotarySite() {
 
   useEffect(() => {
     const handleCalendlyMessage = (event: MessageEvent) => {
+      if (event.origin !== "https://calendly.com") return;
       const data = event.data;
       if (!data || typeof data !== "object") return;
       const eventName = (data as { event?: unknown }).event;
@@ -384,7 +343,7 @@ export default function NotarySite() {
                 Ontario On-Call Notary & Commissioner
               </p>
               <p className="text-xs text-[#7d6650]">
-                Greater Toronto Area • Mobile • 24/7
+                Greater Toronto Area • Six services • By appointment
               </p>
             </div>
             <div className="block sm:hidden">
@@ -456,7 +415,7 @@ export default function NotarySite() {
               <span className="block">Commissioner of Oaths Services</span>
             </h1>
             <p className="mt-6 text-base leading-relaxed text-[#0d345a]">
-              Online Booking • 24/7 mobile services • Competitive pricing •
+              Smart Booking • Mediation • Legal Document Drafting •
               Greater Toronto Area
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4 md:justify-start">
@@ -472,10 +431,25 @@ export default function NotarySite() {
               >
                 View Pricing
               </a>
+              <a href="#book" onClick={() => startBooking("mediation")} className="rounded-full border border-[#0b2b4a] px-8 py-3 text-sm font-semibold text-[#0b2b4a]">Book Mediation</a>
             </div>
           </div>
         </section>
 
+        <section id="book" className="bg-[#f1e4d3] px-4 py-16 md:py-24">
+          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:items-start">
+            <div className="space-y-6">
+              <p className="text-xs font-semibold uppercase tracking-wide text-[#9a6b2f]">An easier way to book</p>
+              <h2 className="text-3xl font-semibold">Your service. Your time.</h2>
+              <p className="text-[#5c4634]">Choose from six services, tell us when and where, and review your price before sending a request.</p>
+              <p className="text-sm text-[#5c4634]">No account needed. No payment on this website. We provide e-Transfer instructions only after your booking is confirmed.</p>
+              <div className="grid gap-3 sm:grid-cols-2">{serviceHighlights.map(card => <a key={card.id} href="#book" onClick={() => startBooking(card.id)} className="rounded-2xl border border-[#d3bfa4] bg-[#fff9f2] p-4 text-sm font-semibold">{card.title} →</a>)}</div>
+              <p><a href="#legacy-calendar" className="text-sm underline">Use our existing scheduling calendar</a></p>
+              <p><a href="#business-packages" className="text-sm underline">Business Subscription Packages →</a></p>
+            </div>
+            <SmartBooking />
+          </div>
+        </section>
         <section className="bg-[#f1e4d3] px-4 py-16 md:py-24">
           <div className="mx-auto flex max-w-6xl flex-col gap-12 md:flex-row md:items-start md:justify-between">
             <div className="w-full max-w-xl space-y-8">
@@ -484,11 +458,11 @@ export default function NotarySite() {
                   Book an appointment
                 </p>
                 <h2 className="mt-3 text-3xl font-semibold text-[#2d1b0f]">
-                  Reserve your time in minutes
+                  Our existing scheduling calendar
                 </h2>
                 <p className="mt-3 text-base text-[#5c4634]">
-                  Choose your service and location, then confirm instantly with
-                  our live scheduling calendar.
+                  Our existing calendar remains available. For all six services
+                  and an itemized request, use Smart Booking above.
                 </p>
               </div>
               <div className="grid gap-6 sm:grid-cols-2">
@@ -512,7 +486,7 @@ export default function NotarySite() {
                 </div>
               </div>
             </div>
-            <div id="book" className="w-full max-w-md">
+            <div id="legacy-calendar" className="w-full max-w-md">
               <div
                 className="relative overflow-hidden rounded-[28px] border border-[#e8dcc8] bg-white p-2 shadow-2xl ring-1 ring-[#d3bfa4]/70"
                 style={{
@@ -565,9 +539,9 @@ export default function NotarySite() {
                   Simple packages tailored to your documents
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm text-[#5c4634]">
-                  Transparent fees aligned with GTA market rates. HST extra
-                  where applicable, receipts provided instantly. In-person only
-                  (Ontario law) for notarization; remote commissioning available
+                  Service fees are shown before 13% HST. Final scope and
+                  availability are confirmed before e-Transfer instructions. In-person only
+                  for our notarization service; remote commissioning available
                   for eligible documents.
                 </p>
               </div>
@@ -599,13 +573,13 @@ export default function NotarySite() {
                   tag: "Most booked",
                 },
                 {
-                  name: "Mobile / After-Hours",
+                  name: "Mobile Visit",
                   description: "We come to you anywhere in the GTA",
-                  price: "From $89",
-                  suffix: "+ travel",
-                  note: "Includes first seal",
+                  price: "$1.50",
+                  suffix: "/ km",
+                  note: "Service fee separate; billable distance confirmed by quote",
                   image: PRICING_IMAGES.mobile,
-                  tag: "24/7 coverage",
+                  tag: "By appointment",
                 },
               ].map((card) => (
                 <article
@@ -647,16 +621,17 @@ export default function NotarySite() {
                       </li>
                       <li className="flex gap-2">
                         <span className="mt-1 inline-block h-2 w-2 rounded-full bg-[#8c7046]" />
-                        Evening & weekend availability
+                        Availability confirmed before payment
                       </li>
                       <li className="flex gap-2">
                         <span className="mt-1 inline-block h-2 w-2 rounded-full bg-[#8c7046]" />
-                        Volume discounts for 5+ documents
+                        Ask about approved bulk page pricing
                       </li>
                     </ul>
                     <div className="mt-auto pt-4">
                       <a
                         href="#book"
+                        onClick={() => startBooking(card.name === "Commissioner of Oaths" ? "affidavits" : "copies")}
                         className="inline-flex w-full items-center justify-center rounded-2xl border border-[#d3bfa4] px-5 py-3 text-sm font-semibold text-[#5c4634] transition hover:border-[#0b2b4a] hover:text-[#0b2b4a] whitespace-nowrap"
                       >
                         Book this service
@@ -666,6 +641,10 @@ export default function NotarySite() {
                 </article>
               ))}
             </div>
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              {serviceHighlights.slice(4).map(card => <article key={card.id} className="rounded-3xl bg-[#fff9f2] p-6 shadow-sm ring-1 ring-[#d3bfa4]/60"><h3 className="text-lg font-semibold">{card.title}</h3><ul className="mt-3 space-y-2 text-sm text-[#5c4634]">{card.points.map(point=><li key={point}>{point}</li>)}</ul><p className="mt-3 text-xs text-[#7d6650]">{card.id === "drafting" ? "Commissioning and notarization charged separately. 13% HST additional." : "Planned duration is confirmed with your request. 13% HST additional."}</p><a href="#book" onClick={()=>startBooking(card.id)} className="mt-5 inline-block text-sm font-semibold">Book this service →</a></article>)}
+            </div>
+            <p className="mt-6 text-sm text-[#5c4634]">Urgent eligible online commissioning from 6 PM uses double the regular service price. Bulk page rates, when applicable: 1–14 pages $15/page; 15–49 $4/page; 50+ $3/page. Ask us to confirm page-based eligibility; existing seal pricing is separate.</p>
             <p className="mt-6 text-xs text-[#7d6650]">
               Price matching: if you find a lower posted price from a licensed
               GTA provider for the same service and time window, we’ll aim to
@@ -697,10 +676,11 @@ export default function NotarySite() {
                 Ask about bundled pricing
               </a>
             </div>
-            <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-10 grid gap-x-6 gap-y-8 md:grid-cols-3">
               {serviceHighlights.map((card) => (
                 <article
                   key={card.title}
+                  id={`service-${card.id}`}
                   className="flex h-full flex-col overflow-hidden rounded-3xl bg-[#fff9f2] shadow-sm ring-1 ring-[#d3bfa4]/70"
                 >
                   <div className="relative h-36">
@@ -733,6 +713,7 @@ export default function NotarySite() {
                     <div className="mt-auto pt-4">
                       <a
                         href="#book"
+                        onClick={() => startBooking(card.id)}
                         className="text-sm font-semibold text-[#0b2b4a] transition hover:text-[#8c7046]"
                       >
                         Book this service →
@@ -744,6 +725,8 @@ export default function NotarySite() {
             </div>
           </div>
         </section>
+
+        <BusinessInquiry />
 
         <section id="compliance" className="px-4">
           <div className="mx-auto grid max-w-6xl gap-8 rounded-4xl bg-[#fff9f2] px-6 py-16 shadow-sm ring-1 ring-[#d3bfa4]/70 md:grid-cols-[1.2fr,0.8fr] md:items-center">
@@ -788,7 +771,7 @@ export default function NotarySite() {
                   <ul className="mt-3 space-y-2 text-sm text-[#5c4634]">
                     <li>
                       <strong>Notarization</strong> (seal/true copy/witnessing)
-                      is <em>in-person only in Ontario</em>.
+                      is <em>provided in person</em>.
                     </li>
                     <li>
                       <strong>Commissioning</strong> (oaths/declarations) can be
@@ -866,7 +849,7 @@ export default function NotarySite() {
               {[
                 {
                   q: "Can you notarize documents online?",
-                  a: "Not in Ontario. The law currently requires in-person notarization. We do offer remote commissioning for affidavits and statutory declarations.",
+                  a: "Our notarization service is provided in person. We offer remote commissioning for eligible affidavits and statutory declarations, where accepted by the recipient.",
                 },
                 {
                   q: "What ID do I need?",
@@ -878,8 +861,14 @@ export default function NotarySite() {
                 },
                 {
                   q: "Do you travel outside the GTA?",
-                  a: "Yes, by quote. Travel fees vary by distance and time.",
+                  a: "Yes, by quote. Travel is $1.50 per verified billable kilometre, plus the service fee. We confirm the distance and final amount before requesting payment.",
                 },
+                {q: "What does Mediation cover?", a: "A neutral third party helps with landlord, civil, family and real-estate disputes. The planned rate is $100/hour plus HST. This is not legal advice or representation."},
+                {q: "What can you draft?", a: "Legal Document Drafting includes an affidavit ($65) or a travel consent letter ($50), plus HST. Commissioning and notarization are separate. Other document work requires review."},
+                {q: "How does Smart Booking work?", a: "Choose a service, a preferred time today in Toronto and an eligible format. Add your details, review the price and submit a request. We confirm availability before sending e-Transfer instructions. A request is not a confirmed appointment."},
+                {q: "When do I pay?", a: "Only after your booking is confirmed. We provide Interac e-Transfer instructions for the 50% deposit. No card or Stripe payment is collected on this website."},
+                {q: "Can I request an urgent appointment?", a: "From 6 PM, urgent requests are online only and need at least 30 minutes’ notice. Eligible commissioning is double the normal service price. Other services require an eligibility review."},
+                {q: "Do you offer business packages?", a: "Yes. Use the Business Subscription Packages inquiry form to discuss your expected monthly notarization and commissioning needs. Packages are quoted individually."},
               ].map((item, i) => (
                 <details key={item.q} className="group py-4" open={i === 0}>
                   <summary className="flex cursor-pointer items-center justify-between text-sm font-semibold text-[#2d1b0f]">
@@ -906,16 +895,17 @@ export default function NotarySite() {
               Ontario On-Call Notary & Commissioner
             </p>
             <p className="mt-2 max-w-lg text-sm text-[#f6efe3]/90">
-              Operating 24/7 across the Greater Toronto Area. Mobile and
-              in-office appointments. Remote commissioning available where
-              accepted by the receiving party.
+              Serving the Greater Toronto Area with notarization, commissioning,
+              mediation and legal document drafting. Mobile and in-office
+              appointments, with eligible services available online.
             </p>
             <p className="mt-6 text-xs text-[#f6efe3]/70">
               This website provides general information only and is not legal
               advice. Services are provided by a duly appointed Notary Public
               and/or Commissioner for Taking Affidavits in Ontario. Notarization
-              is performed in person. Remote services are limited to
-              commissioning where accepted by the receiving party.
+              is performed in person. Remote commissioning is available where
+              accepted by the receiving party. Mediation and document drafting
+              have separate scopes and eligibility.
             </p>
           </div>
           <div className="space-y-4 text-sm text-[#f6efe3]/90">
@@ -938,7 +928,10 @@ export default function NotarySite() {
               </p>
             </div>
             <div>
-              <p className="font-semibold text-white">Service areas</p>
+              <p className="font-semibold text-white">Services</p>
+              <ul className="mt-2 space-y-2">{serviceHighlights.map(card => <li key={card.id}><a href="#book" onClick={() => startBooking(card.id)}>{card.title}</a></li>)}</ul>
+              <a href="#business-packages" className="mt-3 inline-block">Business Subscription Packages</a>
+              <p className="mt-6 font-semibold text-white">Service areas</p>
               <p>Across Ontario (by appointment).</p>
             </div>
           </div>
@@ -951,7 +944,7 @@ export default function NotarySite() {
               "@type": "Notary",
               name: "Ontario On-Call Notary & Commissioner",
               areaServed: "Greater Toronto Area",
-              openingHours: "Mo-Su 00:00-23:59",
+              hasOfferCatalog: {"@type":"OfferCatalog", name:"Services", itemListElement: SERVICES.map(service=>({"@type":"Offer",itemOffered:{"@type":"Service",name:service.title}}))},
               telephone: "+16479895308",
               url: "https://on-callnotary.ca",
               priceRange: "$",
