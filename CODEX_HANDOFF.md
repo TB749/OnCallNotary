@@ -77,3 +77,5 @@ Verify the latest Git status/diff and remote checkpoint. Vercel URL is https://n
 Update this small file after meaningful completed work, changed decisions, tests or blockers, and before a planned stop. Do not rely on detecting an exact usage-limit cutoff. Record test evidence, uncommitted state and one exact next action; never store credentials or customer data. Verify files before trusting narrative history.
 
 Latest hosted check: only GET requests were made; no booking submitted or live email sent. Vercel project settings/authentication are not available in this session. Test notification recipient remains epict5036@gmail.com; hosted configuration has not been applied.
+
+Current publication task: user clarified that GitHub automatically deploys Vercel and authorized publishing updated code. origin/main was fetched and verified as ancestor of P1 (baseline 0605062); no divergent remote work. Fast-forward push HEAD to TB749/Notary2026 main, then compare live HTML/assets with local dist. No runtime changes since passing checks. Next action: verify the main push and automatic Vercel deployment; the separate booking API remains unconfigured.
