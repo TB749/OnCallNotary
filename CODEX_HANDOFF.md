@@ -70,8 +70,10 @@ Generated/local only: dist/, node_modules/, .local/, qa/. DOCX is an existing sp
 
 ## Exact next action
 
-Verify the latest Git status/diff and remote checkpoint. Obtain the Vercel project URL and identify where its /api/booking endpoint runs; then apply BOOKING_OWNER_EMAIL=epict5036@gmail.com to that TEST backend only. If it has no backend, establish a durable test API/database before claiming email delivery works. Configure verified sender and mail credentials privately; do not change the production recipient or e-Transfer recipient, and do not send live test emails without explicit authorization.
+Verify the latest Git status/diff and remote checkpoint. Vercel URL is https://notary2026.vercel.app/. Read-only checks on 2026-09-07 found homepage 200 with old production HTML (Tailwind CDN, asset index-BOAdohWO.js), and /api/config plus /api/booking both 404. The live site is not the current P1 build. Obtain authorized Vercel project access, deploy codex/p1 and establish the test API/database; then apply BOOKING_OWNER_EMAIL=epict5036@gmail.com to that TEST backend only. If it has no backend, establish a durable test API/database before claiming email delivery works. Configure verified sender and mail credentials privately; do not change the production recipient or e-Transfer recipient, and do not send live test emails without explicit authorization.
 
 ## Checkpoint maintenance
 
 Update this small file after meaningful completed work, changed decisions, tests or blockers, and before a planned stop. Do not rely on detecting an exact usage-limit cutoff. Record test evidence, uncommitted state and one exact next action; never store credentials or customer data. Verify files before trusting narrative history.
+
+Latest hosted check: only GET requests were made; no booking submitted or live email sent. Vercel project settings/authentication are not available in this session. Test notification recipient remains epict5036@gmail.com; hosted configuration has not been applied.
