@@ -8,7 +8,7 @@ Read this file and AGENTS.md in D:\P1. Inspect current git status and diff (incl
 
 D:\P1 is the sole working folder. Original source: D:\notary-web-current-prod-code. Do not import old demo code. Current app working directory may still be the retired demo; specify D:\P1 explicitly.
 
-Git is now initialized in D:\P1. Branch codex/p1 is based on origin/main (0605062bb86406a76f609dca6884e69eda31e70a) from https://github.com/TB749/Notary2026. The user's latest instruction explicitly authorizes pushing P1 to that development repository, superseding the earlier Git permission rejection. Publication is being prepared; verify origin/codex/p1 against local HEAD on resume. Client production repository and Cloudflare remain untouched.
+Git is now initialized in D:\P1. Branch codex/p1 is based on origin/main (0605062bb86406a76f609dca6884e69eda31e70a) from https://github.com/TB749/Notary2026. The user's latest instruction explicitly authorizes pushing P1 to that development repository, superseding the earlier Git permission rejection. Implementation commit 5ce03d1 was successfully pushed to origin/codex/p1 on 2026-09-07. This documentation checkpoint follows that implementation commit; verify the latest remote branch against local HEAD on resume. Client production repository and Cloudflare remain untouched.
 
 ## Development, review and production release workflow
 
@@ -54,7 +54,7 @@ Generated/local only: dist/, node_modules/, .local/, qa/. DOCX is an existing sp
 ## Tests completed
 
 - Latest run: node --test tests/booking.test.mjs — 20/20 passed, including existing pricing, new rates, rounding, tampered quotes, repeat submissions, access checks, confirmation ordering, overlap and transaction rollback, mobile quote and email retry.
-- TypeScript check and Vite production build passed after the last implementation change. Not rerun for this documentation-only checkpoint.
+- TypeScript check and Vite production build passed after the last implementation change. Both rerun successfully before publication, along with all 20 booking tests.
 - Browser regression previously passed; qa/browser-results.json re-read for this checkpoint: passed=true, pageErrors=[], checks desktop 3+3, direct service selection, drafting price, retained quote consent, confirm/payment ordering, urgent online/phone rules and mobile overflow. Screenshots in qa/. Do not assume previous preview process is still alive.
 - Local runtime: C:\Users\Windows\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe. Browser script currently depends on bundled Playwright and installed Edge. pnpm lockfile is authoritative.
 
@@ -63,7 +63,7 @@ Generated/local only: dist/, node_modules/, .local/, qa/. DOCX is an existing sp
 - Release cleanup completed: removed stale npm lockfile and corrected README notice/repository wording. Browser test runtime path remains machine-specific.
 - Business approvals: deposit basis/rounding, mediation hour increments and duration limits (UI currently restricts to whole 1–8 hours), overtime brackets, new-service urgent eligibility/pricing, mobile distance basis, optional page-tier scope and final terms. Do not invent resolutions or change original-service rates.
 - Production config: verified mail sender/API credentials, approved transfer recipient, strong server/owner secrets, real D1 ID/migrations and staging checks. Existing Calendly is manually checked, not synchronized. Old pending mail jobs require provider delivery review, not blind replay.
-- Development publication is authorized and underway on codex/p1. Vercel remains an unverified test environment. No client-production push or deployment.
+- Development code published successfully to TB749/Notary2026, branch codex/p1 (implementation commit 5ce03d1). Vercel remains an unverified test environment. No client-production push or deployment.
 - Vercel booking API compatibility is unverified: current backend uses a Cloudflare Worker/D1 adapter and local SQLite. A static frontend preview alone cannot validate the full booking workflow. Determine a test backend/adapter and persistence setup before claiming end-to-end Vercel tests passed.
 
 ## Exact next action
