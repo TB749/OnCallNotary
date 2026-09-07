@@ -26,3 +26,5 @@ Latest pricing scope: calculate the two added services from the specification; l
 7. Deploy the approved version to the client's Cloudflare production site, on-callnotary.ca.
 
 Use codex/ branches for development review. TB749/Notary2026 is the development source of truth; the client's repository is the production release destination. This supersedes earlier instructions to publish development work directly to the client repository. Keep test configuration and data separate from production. Do not promote unapproved changes or treat approval of this workflow as approval of a particular release. This documentation update does not initialize Git, push code, create a Vercel deployment or change production.
+
+Vercel test booking notification recipient: epict5036@gmail.com, configured server-side through BOOKING_OWNER_EMAIL on the test API backend. Preserve the client production recipient. Do not substitute this address for the sender, customer confirmation recipient or e-Transfer recipient. See config/vercel-test.env.example.

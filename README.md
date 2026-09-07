@@ -42,3 +42,9 @@ The pnpm lockfile is authoritative. The stale baseline npm lockfile was removed 
 References: [Cloudflare D1 transactional batches](https://developers.cloudflare.com/d1/worker-api/d1-database/) and [Resend idempotency](https://resend.com/docs/dashboard/emails/idempotency-keys).
 
 Vercel test limitation: the frontend builds successfully, but the current booking API requires the Cloudflare Worker/D1 backend or a separately implemented test adapter. A static Vercel deployment alone does not provide booking submission. No Vercel deployment or end-to-end hosted test is claimed.
+
+## Vercel test booking notifications
+
+The approved test owner recipient is epict5036@gmail.com. config/vercel-test.env.example records BOOKING_OWNER_EMAIL for the test API backend. The existing API already reads this setting; no pricing or production-recipient changes are needed. Set this on the server handling /api/booking (on a separate test Worker if the frontend proxies there). Merely adding an environment variable to a static Vercel frontend cannot send email. Do not use a VITE_ variable or commit mail secrets. Keep the verified BOOKING_FROM_EMAIL, customer email and ETRANSFER_EMAIL separate.
+
+This configuration file is a template, not an automatically applied Vercel project setting. Hosting connection, durable test API/database, verified sender and mail API credentials are still required. No live email was sent to validate this change.

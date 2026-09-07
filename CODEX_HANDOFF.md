@@ -24,6 +24,8 @@ Use codex/ branches for development review. TB749/Notary2026 is the development 
 
 ## Completed
 
+- Prepared test-only owner recipient epict5036@gmail.com via config/vercel-test.env.example (BOOKING_OWNER_EMAIL). Existing API already supports this setting; runtime/pricing code and production default are unchanged. Updated README.md, AGENTS.md and this handoff; added two mocked email-routing regression tests in tests/booking.test.mjs. Hosted Vercel settings have NOT been applied: no connected project or test API backend is available.
+
 - Updated AGENTS.md and this handoff with the developer GitHub → Vercel test → client approval → client GitHub → Cloudflare production workflow. Only these two Markdown files changed in this task.
 
 - Preserved production design and original four service image sources; added Mediation and Legal Document Drafting, English content, desktop 3 + 3 and mobile ordering.
@@ -53,7 +55,7 @@ Generated/local only: dist/, node_modules/, .local/, qa/. DOCX is an existing sp
 
 ## Tests completed
 
-- Latest run: node --test tests/booking.test.mjs — 20/20 passed, including existing pricing, new rates, rounding, tampered quotes, repeat submissions, access checks, confirmation ordering, overlap and transaction rollback, mobile quote and email retry.
+- Latest run: node --test tests/booking.test.mjs — 22/22 passed (including test/production email-recipient isolation; mocked transport, no live mail), including existing pricing, new rates, rounding, tampered quotes, repeat submissions, access checks, confirmation ordering, overlap and transaction rollback, mobile quote and email retry.
 - TypeScript check and Vite production build passed after the last implementation change. Both rerun successfully before publication, along with all 20 booking tests.
 - Browser regression previously passed; qa/browser-results.json re-read for this checkpoint: passed=true, pageErrors=[], checks desktop 3+3, direct service selection, drafting price, retained quote consent, confirm/payment ordering, urgent online/phone rules and mobile overflow. Screenshots in qa/. Do not assume previous preview process is still alive.
 - Local runtime: C:\Users\Windows\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe. Browser script currently depends on bundled Playwright and installed Edge. pnpm lockfile is authoritative.
@@ -68,7 +70,7 @@ Generated/local only: dist/, node_modules/, .local/, qa/. DOCX is an existing sp
 
 ## Exact next action
 
-Run git status and compare local HEAD with git ls-remote origin refs/heads/codex/p1. If publication has not finished, finish the authorized development-branch push without force. Once matched, inspect the Worker/D1 API integration needed for a functioning Vercel test environment; do not claim a static preview tests booking submission. Client production promotion still requires approval of the tested version.
+Verify the latest Git status/diff and remote checkpoint. Obtain the Vercel project URL and identify where its /api/booking endpoint runs; then apply BOOKING_OWNER_EMAIL=epict5036@gmail.com to that TEST backend only. If it has no backend, establish a durable test API/database before claiming email delivery works. Configure verified sender and mail credentials privately; do not change the production recipient or e-Transfer recipient, and do not send live test emails without explicit authorization.
 
 ## Checkpoint maintenance
 
