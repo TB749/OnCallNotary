@@ -21,3 +21,13 @@ Screenshot 2025-09-17 173708.png
 
 # Automated tests stay local and are excluded from GitHub
 tests/
+
+# Local development and handoff files excluded from deployment source
+AGENTS.md
+CODEX_HANDOFF.md
+CALENDLY_SETUP.md
+scripts/dev.mjs
+server/local.mjs
+server/schema.sql
+public/logo.svg
+tsconfig.node.json
