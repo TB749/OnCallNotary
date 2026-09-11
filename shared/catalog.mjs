@@ -9,12 +9,12 @@ export const SERVICES = [
  {id:'drafting',title:'Legal Document Drafting',blurb:'Affidavit and travel consent letter drafting. Commissioning and notarization are charged separately.',image:'/services/legal-drafting.png',points:['Draft Affidavit — $65','Travel Consent Letter — $50'],operations:['draft-affidavit','draft-consent']},
 ];
 export const OPERATIONS = {
- commissioning:{label:'Commissioning',first:2900,additional:1500,unit:'seal',online:true},
+ commissioning:{label:'Commissioning',first:2900,inPersonAdjustment:1000,additional:1500,unit:'seal',online:true},
  notarization:{label:'Notarization / witnessing',first:3900,additional:1500,unit:'seal',online:false},
  guidance:{label:'Other document support / custom quote',unit:'quote',online:true},
  mediation:{label:'Mediation',first:10000,unit:'hour',online:true},
- 'draft-affidavit':{label:'Draft Affidavit',first:6500,unit:'document',online:true},
- 'draft-consent':{label:'Travel Consent Letter',first:5000,unit:'document',online:true},
+ 'draft-affidavit':{label:'Draft Affidavit',first:6500,unit:'document',online:true,afterHoursRegular:true},
+ 'draft-consent':{label:'Travel Consent Letter',first:5000,unit:'document',online:true,afterHoursRegular:true},
 };
 export const MODES = {in_person:'In-Person',online:'Online',mobile:'Mobile Visit'};
 export function localParts(now = new Date()) {
@@ -24,7 +24,7 @@ export function localParts(now = new Date()) {
 export function urgentFor(time) {return /^\d{2}:\d{2}$/.test(time) && time >= '18:00';}
 export function allowedModes(serviceId,time) {
  if(urgentFor(time)) return serviceId==='copies'?[]:['online'];
- return serviceId==='copies'?['in_person','mobile']: serviceId==='mediation'?['in_person','online']:['in_person','online','mobile'];
+ return serviceId==='copies'?['in_person','mobile']: serviceId==='mediation'?['in_person']:['in_person','online','mobile'];
 }
 export function taxTotals(subtotal) {
  if(!Number.isSafeInteger(subtotal)||subtotal<0||subtotal>10000000) throw new Error('Invalid subtotal.');
@@ -47,7 +47,10 @@ export function quoteBooking(data,settings=pricingSettings()) {
  else {
    let amount=op.unit==='seal'?(pages? quantity*(quantity>=50?300:quantity>=15?400:1500):op.first+(quantity-1)*op.additional):op.first*quantity;
    lines.push({label:op.label,quantity,unit:pages?'page':op.unit,amount});
-   if(urgentFor(data.time)) {
+   if(data.operation==='commissioning' && data.mode==='in_person' && !urgentFor(data.time)) {
+     lines.push({label:'In-person appointment fee',quantity:1,unit:'appointment',amount:op.inPersonAdjustment});
+   }
+   if(urgentFor(data.time) && !op.afterHoursRegular) {
      if(settings.urgentOperations.includes(data.operation))lines.push({label:'Urgent service adjustment (2× regular service total)',quantity:1,unit:'adjustment',amount});
      else reasons.push('After-hours eligibility and pricing require owner approval for this service.');
    }

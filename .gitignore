@@ -8,4 +8,13 @@ dist/
 .wrangler/
 *.tsbuildinfo
 qa/
+P1_UI_Test_*.docx
+P1_UI_Test_20*/
+P1_UI_Test_Runner.exe
 docs/*.docx
+
+# Local deliverables and standalone QA tooling
+outputs/
+ui-test-runner/
+P1_UI_Test_Config.json
+Screenshot 2025-09-17 173708.png

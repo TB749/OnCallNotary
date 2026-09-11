@@ -1,8 +1,26 @@
 import {useState} from 'react';
-import {money} from '../shared/catalog.mjs';
 import './booking.css';
-export default function Owner(){const [token,setToken]=useState(''),[items,setItems]=useState<any[]>([]),[message,setMessage]=useState(''),[busy,setBusy]=useState(false);
- async function call(path:string,body?:any){const r=await fetch(path,{method:body?'POST':'GET',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});const d=await r.json();if(!r.ok)throw new Error(d.error);return d;}
- async function load(){setBusy(true);try{setItems(await call('/api/admin/requests'));setMessage('');}catch(e:any){setMessage(e.message);}finally{setBusy(false);}}
- return <main className="sb-admin"><a href="/">← Website</a><h1>Owner booking review</h1><p>Use your owner access token. It stays in memory only; this page does not confirm appointments automatically.</p><label>Owner access token<input type="password" autoComplete="off" value={token} onChange={e=>setToken(e.target.value)}/></label><button disabled={busy} onClick={load}>Load requests</button><button disabled={busy} onClick={async()=>{setBusy(true);try{await call('/api/admin/retry-email',{});setMessage('Retry processed. Refresh requests to inspect delivery status.');}catch(e:any){setMessage(e.message);}finally{setBusy(false);}}}>Retry pending email</button>{message&&<p role="status">{message}</p>}{items.map(r=>{const d=JSON.parse(r.payload),q=r.final_quote?JSON.parse(r.final_quote):JSON.parse(r.quote);return <article key={r.id}><h2>{r.id}</h2><p>{r.kind} · {r.status} · deposit {r.payment_status} · email {r.email_status}</p><pre>{JSON.stringify(d,null,2)}</pre>{q&&<p>{q.status==='calculated'?'Calculated total':'Known charges'}: {money(q.total)} · Deposit: {money(q.deposit)}</p>}{r.kind==='booking'&&r.status==='requested'&&<form onSubmit={async e=>{e.preventDefault();const values=Object.fromEntries(new FormData(e.currentTarget));setBusy(true);try{const reply=await call(`/api/admin/${r.id}/confirm`,values);await load();setMessage(reply.emailStatus==='sent'?'Booking confirmed; instructions emailed.':'Booking confirmed; email pending. Retry delivery.');}catch(e:any){setMessage(e.message);}finally{setBusy(false);}}}><label>Confirmed duration (minutes)<input name="durationMinutes" type="number" min="15" max="480" defaultValue={d.operation==='mediation'?d.hours*60:30} required/></label>{q?.status!=='calculated'&&<><p>Verify scope and pricing with the customer first. Service amount below excludes tax and travel and includes any agreed urgent adjustment.</p><label>Approved service amount (CAD cents)<input name="serviceCents" type="number" min="0" required/></label>{d.mode==='mobile'&&<label>Verified billable kilometres<input name="distanceKm" type="number" min="0.01" step="0.01" required/></label>}<label>Price explanation<input name="reason" maxLength={1000} required/></label></>}<label><input type="checkbox" name="externalCalendarChecked" value="yes" required/>I checked the existing Calendly calendar and all other commitments for this full interval.</label><button disabled={busy}>Confirm booking and send e-Transfer instructions</button></form>}{r.status==='confirmed'&&r.payment_status==='unpaid'&&<button disabled={busy} onClick={async()=>{if(!confirm('Have you independently verified receipt of the full deposit in the bank account?'))return;setBusy(true);try{await call(`/api/admin/${r.id}/received`,{});await load();}catch(e:any){setMessage(e.message);}finally{setBusy(false);}}}>Record verified deposit receipt</button>}</article>;})}</main>;
+export default function Owner() {
+  const [token,setToken]=useState(''), [items,setItems]=useState<any[]>([]), [message,setMessage]=useState(''), [busy,setBusy]=useState(false);
+  async function call(path:string,body?:object) {
+    const response=await fetch(path,{method:body?'POST':'GET',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
+    const data=await response.json();
+    if(!response.ok) throw new Error(data.error);
+    return data;
+  }
+  async function load() {
+    setBusy(true);
+    try {setItems(await call('/api/admin/requests'));setMessage('');}
+    catch(error:any){setMessage(error.message);}
+    finally{setBusy(false);}
+  }
+  return <main className="sb-admin">
+    <a href="/">← Website</a><h1>Business inquiries &amp; saved requests</h1>
+    <p>Manage new appointments in Calendly. Previous booking records are read-only. Your access token stays in memory.</p>
+    <label>Owner access token<input type="password" autoComplete="off" value={token} onChange={event=>setToken(event.target.value)}/></label>
+    <button disabled={busy} onClick={load}>Load requests</button>
+    <button disabled={busy} onClick={async()=>{setBusy(true);try{await call('/api/admin/retry-email',{});setMessage('Business inquiry email retry processed. Reload requests to check delivery. Previous booking emails were not retried.');}catch(error:any){setMessage(error.message);}finally{setBusy(false);}}}>Retry pending inquiry email</button>
+    {message&&<p role="status">{message}</p>}
+    {items.map(record=><article key={record.id}><h2>{record.id}</h2><p>{record.kind==='inquiry'?'Business inquiry':'Previous booking (read-only)'} · {record.status} · email {record.email_status}</p><pre>{JSON.stringify(JSON.parse(record.payload),null,2)}</pre></article>)}
+  </main>;
 }

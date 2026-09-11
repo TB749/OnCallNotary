@@ -431,7 +431,8 @@ export default function NotarySite() {
               >
                 View Pricing
               </a>
-              <a href="#book" onClick={() => startBooking("mediation")} className="rounded-full border border-[#0b2b4a] px-8 py-3 text-sm font-semibold text-[#0b2b4a]">Book Mediation</a>
+			  {/*             <a href="#book" onClick={() => startBooking("mediation")} className="rounded-full border border-[#0b2b4a] px-8 py-3 text-sm font-semibold text-[#0b2b4a]">Book Mediation</a>
+			  */}
             </div>
           </div>
         </section>
@@ -441,16 +442,14 @@ export default function NotarySite() {
             <div className="space-y-6">
               <p className="text-xs font-semibold uppercase tracking-wide text-[#9a6b2f]">An easier way to book</p>
               <h2 className="text-3xl font-semibold">Your service. Your time.</h2>
-              <p className="text-[#5c4634]">Choose from six services, tell us when and where, and review your price before sending a request.</p>
+              <p className="text-[#5c4634]">Choose from six services, review your estimate, then choose an available appointment in Calendly.</p>
               <p className="text-sm text-[#5c4634]">No account needed. No payment on this website. We provide e-Transfer instructions only after your booking is confirmed.</p>
-              <div className="grid gap-3 sm:grid-cols-2">{serviceHighlights.map(card => <a key={card.id} href="#book" onClick={() => startBooking(card.id)} className="rounded-2xl border border-[#d3bfa4] bg-[#fff9f2] p-4 text-sm font-semibold">{card.title} →</a>)}</div>
-              <p><a href="#legacy-calendar" className="text-sm underline">Use our existing scheduling calendar</a></p>
-              <p><a href="#business-packages" className="text-sm underline">Business Subscription Packages →</a></p>
+
             </div>
             <SmartBooking />
           </div>
         </section>
-        <section className="bg-[#f1e4d3] px-4 py-16 md:py-24">
+		{/*        <section className="bg-[#f1e4d3] px-4 py-16 md:py-24">
           <div className="mx-auto flex max-w-6xl flex-col gap-12 md:flex-row md:items-start md:justify-between">
             <div className="w-full max-w-xl space-y-8">
               <div>
@@ -462,7 +461,7 @@ export default function NotarySite() {
                 </h2>
                 <p className="mt-3 text-base text-[#5c4634]">
                   Our existing calendar remains available. For all six services
-                  and an itemized request, use Smart Booking above.
+                  and an itemized estimate, use Smart Booking above.
                 </p>
               </div>
               <div className="grid gap-6 sm:grid-cols-2">
@@ -527,7 +526,7 @@ export default function NotarySite() {
             </div>
           </div>
         </section>
-
+*/}
         <section id="pricing" className="px-4">
           <div className="mx-auto max-w-6xl">
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -559,7 +558,7 @@ export default function NotarySite() {
                   description: "Affidavits & statutory declarations",
                   price: "$29",
                   suffix: "/ first seal",
-                  note: "$15 each additional",
+                  note: "$15 each additional; in-person commissioning adds $10 per appointment",
                   image: PRICING_IMAGES.commissioner,
                   tag: "Remote friendly",
                 },
@@ -630,7 +629,7 @@ export default function NotarySite() {
                     </ul>
                     <div className="mt-auto pt-4">
                       <a
-                        href="#book"
+                        href="#smart-booking"
                         onClick={() => startBooking(card.name === "Commissioner of Oaths" ? "affidavits" : "copies")}
                         className="inline-flex w-full items-center justify-center rounded-2xl border border-[#d3bfa4] px-5 py-3 text-sm font-semibold text-[#5c4634] transition hover:border-[#0b2b4a] hover:text-[#0b2b4a] whitespace-nowrap"
                       >
@@ -642,7 +641,7 @@ export default function NotarySite() {
               ))}
             </div>
             <div className="mt-6 grid gap-6 md:grid-cols-2">
-              {serviceHighlights.slice(4).map(card => <article key={card.id} className="rounded-3xl bg-[#fff9f2] p-6 shadow-sm ring-1 ring-[#d3bfa4]/60"><h3 className="text-lg font-semibold">{card.title}</h3><ul className="mt-3 space-y-2 text-sm text-[#5c4634]">{card.points.map(point=><li key={point}>{point}</li>)}</ul><p className="mt-3 text-xs text-[#7d6650]">{card.id === "drafting" ? "Commissioning and notarization charged separately. 13% HST additional." : "Planned duration is confirmed with your request. 13% HST additional."}</p><a href="#book" onClick={()=>startBooking(card.id)} className="mt-5 inline-block text-sm font-semibold">Book this service →</a></article>)}
+              {serviceHighlights.slice(4).map(card => <article key={card.id} className="rounded-3xl bg-[#fff9f2] p-6 shadow-sm ring-1 ring-[#d3bfa4]/60"><h3 className="text-lg font-semibold">{card.title}</h3><ul className="mt-3 space-y-2 text-sm text-[#5c4634]">{card.points.map(point=><li key={point}>{point}</li>)}</ul><p className="mt-3 text-xs text-[#7d6650]">{card.id === "drafting" ? "Commissioning and notarization charged separately. 13% HST additional." : "Planned duration is confirmed with your request. 13% HST additional."}</p><a href="#smart-booking" onClick={()=>startBooking(card.id)} className="mt-5 inline-block text-sm font-semibold">Book this service →</a></article>)}
             </div>
             <p className="mt-6 text-sm text-[#5c4634]">Urgent eligible online commissioning from 6 PM uses double the regular service price. Bulk page rates, when applicable: 1–14 pages $15/page; 15–49 $4/page; 50+ $3/page. Ask us to confirm page-based eligibility; existing seal pricing is separate.</p>
             <p className="mt-6 text-xs text-[#7d6650]">
@@ -712,7 +711,7 @@ export default function NotarySite() {
                     </ul>
                     <div className="mt-auto pt-4">
                       <a
-                        href="#book"
+                        href="#smart-booking"
                         onClick={() => startBooking(card.id)}
                         className="text-sm font-semibold text-[#0b2b4a] transition hover:text-[#8c7046]"
                       >
@@ -865,9 +864,9 @@ export default function NotarySite() {
                 },
                 {q: "What does Mediation cover?", a: "A neutral third party helps with landlord, civil, family and real-estate disputes. The planned rate is $100/hour plus HST. This is not legal advice or representation."},
                 {q: "What can you draft?", a: "Legal Document Drafting includes an affidavit ($65) or a travel consent letter ($50), plus HST. Commissioning and notarization are separate. Other document work requires review."},
-                {q: "How does Smart Booking work?", a: "Choose a service, a preferred time today in Toronto and an eligible format. Add your details, review the price and submit a request. We confirm availability before sending e-Transfer instructions. A request is not a confirmed appointment."},
+                {q: "How does Smart Booking work?", a: "Choose a service, an appointment period and an eligible format. Add your details and review the estimate. Where online scheduling is available, choose an actual time and complete the appointment in Calendly. Otherwise, review the existing calendar options. The website estimate does not create an appointment. Payment arrangements follow confirmation."},
                 {q: "When do I pay?", a: "Only after your booking is confirmed. We provide Interac e-Transfer instructions for the 50% deposit. No card or Stripe payment is collected on this website."},
-                {q: "Can I request an urgent appointment?", a: "From 6 PM, urgent requests are online only and need at least 30 minutes’ notice. Eligible commissioning is double the normal service price. Other services require an eligibility review."},
+                {q: "Can I request an urgent appointment?", a: "From 6 PM, urgent requests are online only and need at least 30 minutes’ notice. Eligible commissioning is double the normal service price. Drafting retains regular rates. After-hours mediation requires an eligibility and pricing review."},
                 {q: "Do you offer business packages?", a: "Yes. Use the Business Subscription Packages inquiry form to discuss your expected monthly notarization and commissioning needs. Packages are quoted individually."},
               ].map((item, i) => (
                 <details key={item.q} className="group py-4" open={i === 0}>
@@ -929,7 +928,7 @@ export default function NotarySite() {
             </div>
             <div>
               <p className="font-semibold text-white">Services</p>
-              <ul className="mt-2 space-y-2">{serviceHighlights.map(card => <li key={card.id}><a href="#book" onClick={() => startBooking(card.id)}>{card.title}</a></li>)}</ul>
+              <ul className="mt-2 space-y-2">{serviceHighlights.map(card => <li key={card.id}><a href="#smart-booking" onClick={() => startBooking(card.id)}>{card.title}</a></li>)}</ul>
               <a href="#business-packages" className="mt-3 inline-block">Business Subscription Packages</a>
               <p className="mt-6 font-semibold text-white">Service areas</p>
               <p>Across Ontario (by appointment).</p>
