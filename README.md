@@ -18,7 +18,7 @@ The /owner page lists inquiries and previous booking records. Previous bookings 
 
 Use Node 22.13 or newer and pnpm. Install with pnpm install --frozen-lockfile. Copy .env.example to .env only for a new setup; preserve existing private files. pnpm dev starts Vite and the inquiry API. For frontend-only preview, run pnpm exec vite --host 127.0.0.1 --port 5173.
 
-Run pnpm test and pnpm build. Run node tests/calendly-browser.mjs for Smart Booking and node tests/browser-check.mjs for business inquiry/owner browser regressions. Tests use fake mail and isolated data and do not create live appointments. Local QA files are ignored.
+Run pnpm build to check TypeScript and build the website. Automated tests and local QA tooling are excluded from this repository.
 
 ## Open business configuration
 
@@ -29,4 +29,4 @@ Commissioning is $29 for the first seal, plus one $10 appointment fee for in-per
 Develop on codex/p1 in https://github.com/TB749/OnCallNotary, now configured as origin. Verify the new repository's Vercel linkage before publishing; automatic deployment was established only for the previous Notary2026 repository. Obtain approval of the specific tested commit/deployment before promoting to https://github.com/on-callnotary/notary-web and the client's Cloudflare site. Do not deploy, send live test emails or submit live appointments without authorization. Keep secrets and test data out of version control.
 
 ## Source package
-The repository contains the website, required assets, inquiry backend, configuration templates and regression tests. Local reports, spreadsheet deliverables, standalone Windows QA tooling, dependencies and build output are excluded. Install dependencies using the lockfile before building. The shared Calendly event is for testing; backend configuration and hosting linkage require separate setup.
+The repository contains the website, required assets, inquiry backend, configuration templates. Local reports, spreadsheet deliverables, standalone Windows QA tooling, dependencies and build output are excluded. Install dependencies using the lockfile before building. The shared Calendly event is for testing; backend configuration and hosting linkage require separate setup.

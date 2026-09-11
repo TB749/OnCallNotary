@@ -22,4 +22,4 @@ Custom config, quote, booking/status, confirmation and payment-receipt endpoints
 
 ## Verification
 
-Run pnpm test, pnpm build, node tests/calendly-browser.mjs and node tests/browser-check.mjs. Browser regressions use local fixtures, not live bookings. The first covers shared-event routing/prefill, estimates, message isolation, failure recovery and mobile layout; the second covers business inquiry submission and protected owner access. qa/ contains ignored local evidence.
+Run pnpm build for TypeScript and production build verification. Automated regression tests and QA evidence are retained locally and excluded from GitHub.

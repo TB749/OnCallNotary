@@ -49,3 +49,5 @@ The previously deployed P1 frontend at https://notary2026.vercel.app/ is separat
 
 
 September 10 approved cost matrix: use the user-supplied D:/Esther Master/On_Call_Notary_Cost_Matrix.xlsx table cells C6:H17. Before 6 PM, commissioning is $29 plus one $10 in-person appointment fee across Affidavits, Business and International; additional seals remain $15 each. Online/mobile commissioning base and urgent online 2x remain unchanged. Before-6-PM mediation is in-person only. From-6-PM online drafting stays $65/$50 without urgency adjustment or after-hours price-review flag. After-hours mediation and mobile travel still require review. This supersedes older pricing-scope restrictions and stale proposed/unresolved notes in the workbook. Website estimates and shared Calendly test routing remain in effect.
+
+September 10 repository scope: user requested removing test code from GitHub. Keep tests/ and standalone QA tooling locally, ignored by Git. package.json has no test script in the distributed source; local unit tests can still run with node --test tests/*.test.mjs. This does not change the shared Calendly test event.

@@ -18,3 +18,6 @@ outputs/
 ui-test-runner/
 P1_UI_Test_Config.json
 Screenshot 2025-09-17 173708.png
+
+# Automated tests stay local and are excluded from GitHub
+tests/
